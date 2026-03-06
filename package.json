@@ -1,0 +1,17 @@
+{
+  "name": "kanban-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A Kanban portfolio web app.",
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "build": "pnpm -r build"
+  },
+  "keywords": [
+    "kanban",
+    "web app"
+  ],
+  "author": "Zoltán Völcsey <zvolcsey@gmail.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.30.3"
+}
