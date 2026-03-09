@@ -5,7 +5,12 @@
   "description": "A Kanban portfolio web app.",
   "scripts": {
     "dev": "pnpm --parallel -r dev",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "db:logs": "docker compose logs -f db",
+    "db:shell": "docker compose exec db psql -U postgres -d kanban_app"
   },
   "keywords": [
     "kanban",
