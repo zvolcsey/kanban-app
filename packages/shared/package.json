@@ -1,5 +1,11 @@
 {
   "name": "@kanban-app/shared",
   "private": true,
-  "types": "./src/index.ts"
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
 }
