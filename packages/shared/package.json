@@ -1,0 +1,5 @@
+{
+  "name": "@kanban-app/shared",
+  "private": true,
+  "types": "./src/index.ts"
+}
