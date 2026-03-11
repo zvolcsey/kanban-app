@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "pnpm typecheck && pnpm run format:check && pnpm lint && pnpm build",
+    "validate": "npm-run-all --parallel typecheck format:check lint build",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d",
@@ -35,6 +35,7 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.3.3",
+    "npm-run-all2": "^8.0.4",
     "prettier": "3.8.1",
     "typescript-eslint": "^8.56.1"
   }
