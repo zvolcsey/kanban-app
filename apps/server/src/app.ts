@@ -1,11 +1,11 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import { pool } from './db'
 
 const app = express()
 
 app.use(express.json())
 
-app.get('/api/health', async (_req, res) => {
+app.get('/api/health', async (_req: Request, res: Response) => {
   try {
     await pool.query('SELECT 1')
     res.json({ status: 'ok', db: 'connection successful' })
