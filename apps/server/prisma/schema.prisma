@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  DEMO
+}
+
+enum BoardRole {
+  OWNER
+  MEMBER
+}
+
+model User {
+  id            String    @id @default(cuid(2))
+  username      String    @unique @db.VarChar(30)
+  passwordHash  String    @db.VarChar(255)
+  bio           String?   @db.VarChar(160)
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(6)
+
+  boards Board[]
+  tasks Task[]
+  boardMembers BoardMember[]
+  taskAssignments TaskAssignment[]
+  comments Comment[]
+}
+
+model Board {
+  id          String    @id @default(cuid(2))
+  title       String    @db.VarChar(60)
+  description String?   @db.VarChar(160)
+  ownerId     String
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+
+  owner User @relation(fields: [ownerId], references: [id])
+  columns Column[]
+  boardMembers BoardMember[]
+}
+
+model BoardMember {
+  id        String    @id @default(cuid(2))
+  boardId   String
+  userId    String
+  role      BoardRole @default(MEMBER)
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
+
+  board Board @relation(fields: [boardId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@unique([boardId, userId])
+}
+
+model Column {
+  id          String    @id @default(cuid(2))
+  title       String    @db.VarChar(30)
+  description String?   @db.VarChar(160)
+  boardId     String
+  order       Int
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+
+  board Board @relation(fields: [boardId], references: [id])
+  tasks Task[]
+}
+
+model Task {
+  id          String    @id @default(cuid(2))
+  title       String    @db.VarChar(80)
+  description String?   @db.VarChar(500)
+  dueDate     DateTime? @db.Timestamptz(6)
+  columnId    String
+  ownerId     String
+  order       Int
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+
+  column Column @relation(fields: [columnId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id])
+  taskAssignments TaskAssignment[]
+  comments Comment[]
+}
+
+model TaskAssignment {
+  id        String   @id @default(cuid(2))
+  taskId    String
+  userId    String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+
+  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@unique([taskId, userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid(2))
+  content   String   @db.VarChar(1000)
+  taskId    String
+  userId    String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+
+  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
