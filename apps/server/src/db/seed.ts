@@ -33,7 +33,7 @@ async function main() {
       passwordHash:
         '$2b$10$.hvXMG25HlSoV2fj30N.quM/V//d3W2CRst9A3izN3QhQQ2LkMHPu', // Hash for 'password123'
       bio: 'Hello, I am Alice!',
-      role: 'DEMO',
+      accountType: 'DEMO',
       boards: {
         create: {
           id: SEED_IDS.boards.ecommerceBoard,
@@ -66,7 +66,7 @@ async function main() {
       passwordHash:
         '$2b$10$0JxkcNk6vffc9KqfSGxX6u1Tg/OTMD/UJVehRlLtGDG2c9CY4U/EO', // Hash for 'password456'
       bio: 'Hello, I am Bob!',
-      role: 'DEMO',
+      accountType: 'DEMO',
       boardMembers: {
         create: {
           boardId: SEED_IDS.boards.ecommerceBoard,
