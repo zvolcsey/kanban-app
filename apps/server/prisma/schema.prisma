@@ -7,7 +7,7 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
+enum AccountType {
   USER
   DEMO
 }
@@ -18,19 +18,30 @@ enum BoardRole {
 }
 
 model User {
-  id            String    @id @default(cuid(2))
-  username      String    @unique @db.VarChar(30)
-  passwordHash  String    @db.VarChar(255)
-  bio           String?   @db.VarChar(160)
-  role          UserRole  @default(USER)
-  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime  @updatedAt @db.Timestamptz(6)
+  id            String       @id @default(cuid(2))
+  username      String       @unique @db.VarChar(30)
+  passwordHash  String       @db.VarChar(255)
+  bio           String?      @db.VarChar(160)
+  accountType   AccountType  @default(USER)
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
 
+  refreshTokens RefreshToken[]
   boards Board[]
   tasks Task[]
   boardMembers BoardMember[]
   taskAssignments TaskAssignment[]
   comments Comment[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid(2))
+  tokenHash String   @unique @db.VarChar(255)
+  userId    String
+  expiresAt DateTime @db.Timestamptz(6)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Board {
