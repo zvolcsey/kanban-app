@@ -36,12 +36,13 @@ model User {
 
 model RefreshToken {
   id        String   @id @default(cuid(2))
-  tokenHash String   @unique @db.VarChar(255)
+  tokenHash String   @db.VarChar(255)
   userId    String
   expiresAt DateTime @db.Timestamptz(6)
   createdAt DateTime @default(now()) @db.Timestamptz(6)
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index ([userId])
 }
 
 model Board {
