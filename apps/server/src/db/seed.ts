@@ -33,7 +33,7 @@ async function main() {
       passwordHash:
         '$2b$10$.hvXMG25HlSoV2fj30N.quM/V//d3W2CRst9A3izN3QhQQ2LkMHPu', // Hash for 'password123'
       bio: 'Hello, I am Alice!',
-      role: 'DEMO',
+      accountType: 'DEMO',
       boards: {
         create: {
           id: SEED_IDS.boards.ecommerceBoard,
@@ -48,10 +48,18 @@ async function main() {
           role: 'OWNER',
         },
       },
+      refreshTokens: {
+        create: {
+          tokenHash:
+            '215c69d2d0c4e873d1d19e6537411fa171c8f33402bc1109b4321e4c78ac9715', // Hash for a sample refresh token
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+        },
+      },
     },
     include: {
       boards: true,
       boardMembers: true,
+      refreshTokens: true,
     },
   })
   console.log('Created user with board:', alice123WithBoard)
@@ -66,16 +74,24 @@ async function main() {
       passwordHash:
         '$2b$10$0JxkcNk6vffc9KqfSGxX6u1Tg/OTMD/UJVehRlLtGDG2c9CY4U/EO', // Hash for 'password456'
       bio: 'Hello, I am Bob!',
-      role: 'DEMO',
+      accountType: 'DEMO',
       boardMembers: {
         create: {
           boardId: SEED_IDS.boards.ecommerceBoard,
           role: 'MEMBER',
         },
       },
+      refreshTokens: {
+        create: {
+          tokenHash:
+            'f4ad2dc8e109c1b60214d773ea4458952cfc9028597268715b72b0351f270eaf', // Hash for a sample refresh token
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+        },
+      },
     },
     include: {
       boardMembers: true,
+      refreshTokens: true,
     },
   })
   console.log('Created user with a board membership:', bob456)
