@@ -48,10 +48,18 @@ async function main() {
           role: 'OWNER',
         },
       },
+      refreshTokens: {
+        create: {
+          tokenHash:
+            '215c69d2d0c4e873d1d19e6537411fa171c8f33402bc1109b4321e4c78ac9715', // Hash for a sample refresh token
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+        },
+      },
     },
     include: {
       boards: true,
       boardMembers: true,
+      refreshTokens: true,
     },
   })
   console.log('Created user with board:', alice123WithBoard)
@@ -73,9 +81,17 @@ async function main() {
           role: 'MEMBER',
         },
       },
+      refreshTokens: {
+        create: {
+          tokenHash:
+            'f4ad2dc8e109c1b60214d773ea4458952cfc9028597268715b72b0351f270eaf', // Hash for a sample refresh token
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+        },
+      },
     },
     include: {
       boardMembers: true,
+      refreshTokens: true,
     },
   })
   console.log('Created user with a board membership:', bob456)
