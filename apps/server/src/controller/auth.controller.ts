@@ -1,7 +1,39 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
+import { signupService } from '../services/auth.service'
+import { SignupInput, SignupResponse } from '@kanban-app/shared'
 
-export function signup(_req: Request, res: Response) {
-  res.status(201).json({ message: 'User signed up successfully' })
+export async function signupHandler(
+  req: Request<SignupInput>,
+  res: Response<SignupResponse>,
+  next: NextFunction,
+) {
+  try {
+    const { username, password } = req.body
+
+    const { accessToken, user } = await signupService({ username, password })
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully',
+      data: {
+        user: {
+          ...user,
+          createdAt: user.createdAt.toISOString(),
+          updatedAt: user.updatedAt.toISOString(),
+        },
+      },
+      token: accessToken,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 export function login(_req: Request, res: Response) {
