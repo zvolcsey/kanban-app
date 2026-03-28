@@ -1,6 +1,8 @@
 import { Router } from 'express'
+import { validate } from '../middleware/middleware'
+import { signupSchema } from '@kanban-app/shared'
 import {
-  signup,
+  signupHandler,
   login,
   loginDemoUser,
   refreshToken,
@@ -10,7 +12,7 @@ import {
 
 const router = Router()
 
-router.post('/signup', signup)
+router.post('/signup', validate(signupSchema), signupHandler)
 router.post('/login', login)
 router.post('/login/demo', loginDemoUser)
 router.post('/refresh', refreshToken)

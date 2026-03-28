@@ -24,6 +24,12 @@ export default defineConfig([
     languageOptions: {
       globals: globals.node,
     },
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { args: 'all', argsIgnorePattern: '^_' },
+      ],
+    },
   },
   {
     files: ['packages/shared/**/*.ts'],
