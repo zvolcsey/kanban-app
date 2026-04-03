@@ -1,8 +1,22 @@
 packages:
   - 'apps/*'
   - 'packages/*'
+
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+strictDepBuilds: true
+engineStrict: true
+blockExoticSubdeps: true
+
 allowBuilds:
   '@prisma/engines': true
   argon2: true
   esbuild: true
   prisma: true
+
+overrides:
+  # CVE: GHSA-j3q9-mxjg-w52f + GHSA-27v5-c462-wpq7 | ReDoS via wildcards and optional groups
+  # path: apps__server > express > router > path-to-regexp
+  # waiting for: express or router to update path-to-regexp internally
+  # track: https://github.com/advisories/GHSA-j3q9-mxjg-w52f
+  path-to-regexp: '8.4.0'

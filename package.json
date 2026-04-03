@@ -11,7 +11,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm-run-all --parallel typecheck format:check lint build",
+    "prisma:generate": "pnpm --filter server run prisma:generate",
+    "validate": "pnpm run prisma:generate && npm-run-all --parallel typecheck format:check lint build",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d",
@@ -25,7 +26,7 @@
   ],
   "author": "Zoltán Völcsey <zvolcsey@gmail.com>",
   "license": "MIT",
-  "packageManager": "pnpm@10.32.1",
+  "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "@eslint/js": "^9.39.3",
     "eslint": "^9.39.3",
@@ -34,9 +35,13 @@
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.3.3",
+    "lint-staged": "^16.4.0",
     "npm-run-all2": "^8.0.4",
     "prettier": "3.8.1",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.57.2"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
   }
 }
